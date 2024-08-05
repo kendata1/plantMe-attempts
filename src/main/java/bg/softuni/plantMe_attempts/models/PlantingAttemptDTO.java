@@ -8,8 +8,17 @@ public class PlantingAttemptDTO {
     private String plantingDate;
     private String seedInfo;
     private String seedlingInfo;
+    private String mainInfo;
 
     public PlantingAttemptDTO() {}
+
+    public String getMainInfo() {
+        return mainInfo;
+    }
+
+    public void setMainInfo(String mainInfo) {
+        this.mainInfo = mainInfo;
+    }
 
     public Long getId() {
         return id;

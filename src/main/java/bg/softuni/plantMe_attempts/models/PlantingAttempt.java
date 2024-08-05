@@ -11,16 +11,30 @@ public class PlantingAttempt {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @Column(nullable = false)
     private String plant;
+    @Column(nullable = false)
     private String username;
     @Column(nullable = false)
     private String variety;
     @Column(name = "planting_date", nullable = false)
     private LocalDate plantingDate;
+    @Column(name = "seed-info")
     private String seedInfo;
+    @Column(name = "seedling_info")
     private String seedlingInfo;
+    @Column(name = "main_info", columnDefinition = "TEXT", nullable = false)
+    private String mainInfo;
 
     public PlantingAttempt() {
+    }
+
+    public String getMainInfo() {
+        return mainInfo;
+    }
+
+    public void setMainInfo(String mainInfo) {
+        this.mainInfo = mainInfo;
     }
 
     public long getId() {

@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface PlantingAttemptRepository extends JpaRepository<PlantingAttempt, Long> {
     List<PlantingAttempt> getAllByUsernameOrderByPlantingDate (String username);
+
+    List<PlantingAttempt> getAllByUsernameNotOrderByPlantingDate (String username);
 }

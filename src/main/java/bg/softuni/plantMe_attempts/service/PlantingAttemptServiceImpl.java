@@ -12,12 +12,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class PlantingAttemptImpl implements PlantingAttemptService{
+public class PlantingAttemptServiceImpl implements PlantingAttemptService{
     @Override
     public PlantingAttemptDTO getPlantingAttemptById(Long id) {
         PlantingAttempt plantingAttempt = plantingAttemptRepository
                 .findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Not Found!"));
+                .orElseThrow(() -> new IllegalArgumentException("Attempt Not Found!"));
         return modelMapper.map(plantingAttempt, PlantingAttemptDTO.class);
     }
 
@@ -33,12 +33,18 @@ public class PlantingAttemptImpl implements PlantingAttemptService{
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<PlantingAttemptDTO> getAllPlantingAttemptsOfOthers (String username){
+        return plantingAttemptRepository.getAllByUsernameNotOrderByPlantingDate(username).stream()
+                .map(plantingAttempt -> modelMapper.map(plantingAttempt, PlantingAttemptDTO.class))
+                .collect(Collectors.toList());
+    }
+
     private final PlantingAttemptRepository plantingAttemptRepository;
     private final DateTimeFormatter dateTimeFormatter;
-
     private final ModelMapper modelMapper;
 
-    public PlantingAttemptImpl(PlantingAttemptRepository plantingAttemptRepository, DateTimeFormatter dateTimeFormatter, ModelMapper modelMapper) {
+    public PlantingAttemptServiceImpl(PlantingAttemptRepository plantingAttemptRepository, DateTimeFormatter dateTimeFormatter, ModelMapper modelMapper) {
         this.plantingAttemptRepository = plantingAttemptRepository;
         this.dateTimeFormatter = dateTimeFormatter;
         this.modelMapper = modelMapper;

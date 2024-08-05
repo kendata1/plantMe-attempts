@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface PlantingAttemptService {
     void addPlantingAttempt (PlantingAttemptDTO addPlantingAttemptDTO);
-
+    List<PlantingAttemptDTO> getAllPlantingAttemptsOfOthers (String username);
     List<PlantingAttemptDTO> getAllPlantingAttemptsForUser (String username);
 
     void deleteOffer(Long offerId);

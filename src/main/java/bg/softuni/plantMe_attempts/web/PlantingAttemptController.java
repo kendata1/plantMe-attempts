@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.List;
 
@@ -25,9 +26,14 @@ public class PlantingAttemptController {
         return ResponseEntity
                 .ok(plantingAttemptService.getPlantingAttemptById(id));
     }
-    @GetMapping("/{username}/all")
+    @GetMapping("/all/{username}")
     public ResponseEntity<List<PlantingAttemptDTO>> getAllPlantAttemptsForUser (@PathVariable("username") String username) {
         return ResponseEntity.ok(plantingAttemptService.getAllPlantingAttemptsForUser(username));
+    }
+
+    @GetMapping("/isnt/{username}")
+    public ResponseEntity<List<PlantingAttemptDTO>> getAllPlantingAttemptsOfOtherUsers (@PathVariable("username") String username) {
+        return ResponseEntity.ok(plantingAttemptService.getAllPlantingAttemptsOfOthers(username));
     }
 
     @PostMapping("/add")
@@ -35,7 +41,13 @@ public class PlantingAttemptController {
             @RequestBody PlantingAttemptDTO plantingAttemptDTO) {
         LOGGER.info("Going to create Planting attempt {}", plantingAttemptDTO);
         plantingAttemptService.addPlantingAttempt(plantingAttemptDTO);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.created(
+                ServletUriComponentsBuilder
+                        .fromCurrentRequest()
+                        .path("/{id}")
+                        .buildAndExpand(plantingAttemptDTO.getId())
+                        .toUri()
+        ).body(plantingAttemptDTO);
     }
 
     @DeleteMapping("/{id}")
